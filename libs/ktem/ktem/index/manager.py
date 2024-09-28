@@ -49,6 +49,7 @@ class IndexManager:
 
         with Session(engine) as sess:
             entry = Index(name=name, config=config, index_type=index_type)
+            print("ppppppppppppppp",entry)
             sess.add(entry)
             sess.commit()
             sess.refresh(entry)
@@ -182,8 +183,9 @@ class IndexManager:
         Load the index from database
         """
         self.load_index_types()
-
+        print("hxjsxjkx", settings.KH_INDICES)
         for index in settings.KH_INDICES:
+            print("kkkkk", index)
             if not self.exists(name=index["name"]):
                 self.build_index(**index)
 

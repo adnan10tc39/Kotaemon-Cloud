@@ -27,6 +27,12 @@ class QdrantVectorStore(LlamaIndexVectorStore):
         client_kwargs: Optional[dict] = None,
         **kwargs: Any,
     ):
+        url="https://4077d92b-7700-443a-8e5e-ec076d863da6.europe-west3-0.gcp.cloud.qdrant.io:6333"
+        api_key='VZfljUiLWD-PywAh_qnQ6rYIRGxcyIoaPhua28DOnLl7O-gdJ1c8Eg'
+        # if client_kwargs is None:
+        #     client_kwargs = {}
+        # client_kwargs['https'] = True
+        # client_kwargs['timeout'] = 50
         self._collection_name = collection_name
         self._url = url
         self._api_key = api_key

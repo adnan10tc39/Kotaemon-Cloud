@@ -4,7 +4,13 @@ from llama_index.vector_stores.chroma import ChromaVectorStore as LIChromaVector
 
 from .base import LlamaIndexVectorStore
 
+#api VZfljUiLWD-PywAh_qnQ6rYIRGxcyIoaPhua28DOnLl7O-gdJ1c8Eg
 
+'''
+curl \
+    -X GET 'https://4077d92b-7700-443a-8e5e-ec076d863da6.europe-west3-0.gcp.cloud.qdrant.io:6333' \
+    --header 'api-key: VZfljUiLWD-PywAh_qnQ6rYIRGxcyIoaPhua28DOnLl7O-gdJ1c8Eg'
+'''
 class ChromaVectorStore(LlamaIndexVectorStore):
     _li_class: Type[LIChromaVectorStore] = LIChromaVectorStore
 

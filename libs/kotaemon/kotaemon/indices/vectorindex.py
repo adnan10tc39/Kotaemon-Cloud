@@ -9,7 +9,8 @@ from theflow.settings import settings as flowsettings
 
 from kotaemon.base import BaseComponent, Document, RetrievedDocument
 from kotaemon.embeddings import BaseEmbeddings
-from kotaemon.storages import BaseDocumentStore, BaseVectorStore
+from kotaemon.storages import BaseDocumentStore, BaseVectorStore, QdrantVectorStore
+from llama_index.vector_stores.qdrant import QdrantVectorStore 
 
 from .base import BaseIndexing, BaseRetrieval
 from .rankings import BaseReranking, LLMReranking
@@ -28,13 +29,14 @@ class VectorIndexing(BaseIndexing):
     """
 
     cache_dir: Optional[str] = getattr(flowsettings, "KH_CHUNKS_OUTPUT_DIR", None)
-    vector_store: BaseVectorStore
+    vector_store: QdrantVectorStore
     doc_store: Optional[BaseDocumentStore] = None
     embedding: BaseEmbeddings
     count_: int = 0
 
     def to_retrieval_pipeline(self, *args, **kwargs):
         """Convert the indexing pipeline to a retrieval pipeline"""
+        self.vector_store=QdrantVectorStore
         return VectorRetrieval(
             vector_store=self.vector_store,
             doc_store=self.doc_store,
@@ -120,7 +122,7 @@ class VectorIndexing(BaseIndexing):
 class VectorRetrieval(BaseRetrieval):
     """Retrieve list of documents from vector store"""
 
-    vector_store: BaseVectorStore
+    vector_store: QdrantVectorStore
     doc_store: Optional[BaseDocumentStore] = None
     embedding: BaseEmbeddings
     rerankers: Sequence[BaseReranking] = []

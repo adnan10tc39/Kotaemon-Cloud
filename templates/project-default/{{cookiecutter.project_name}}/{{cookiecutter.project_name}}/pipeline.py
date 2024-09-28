@@ -6,7 +6,7 @@ from kotaemon.contribs.promptui.logs import ResultLog
 from kotaemon.embeddings import LCAzureOpenAIEmbeddings
 from kotaemon.indices import VectorIndexing, VectorRetrieval
 from kotaemon.llms import LCAzureChatOpenAI
-from kotaemon.storages import ChromaVectorStore, SimpleFileDocumentStore
+from kotaemon.storages import ChromaVectorStore, SimpleFileDocumentStore, QdrantVectorStore
 
 
 class QAResultLog(ResultLog):
@@ -45,7 +45,7 @@ class QuestionAnsweringPipeline(BaseComponent):
 
     retrieving_pipeline: VectorRetrieval = Node(
         VectorRetrieval.withx(
-            vector_store=lazy(ChromaVectorStore).withx(path="./tmp"),
+            vector_store=lazy(QdrantVectorStore).withx(path="./tmp"),
             doc_store=lazy(SimpleFileDocumentStore).withx(path="docstore.json"),
             embedding=LCAzureOpenAIEmbeddings.withx(
                 model="text-embedding-ada-002",
@@ -74,8 +74,8 @@ class QuestionAnsweringPipeline(BaseComponent):
 
 class IndexingPipeline(VectorIndexing):
 
-    vector_store: ChromaVectorStore = Param(
-        lazy(ChromaVectorStore).withx(path="./tmp"),
+    vector_store: QdrantVectorStore = Param(
+        lazy(QdrantVectorStore).withx(path="./tmp"),
         ignore_ui=True,
     )
     doc_store: SimpleFileDocumentStore = Param(

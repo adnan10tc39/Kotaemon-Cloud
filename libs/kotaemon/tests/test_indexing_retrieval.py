@@ -8,7 +8,7 @@ from openai.types.create_embedding_response import CreateEmbeddingResponse
 from kotaemon.base import Document
 from kotaemon.embeddings import AzureOpenAIEmbeddings
 from kotaemon.indices import VectorIndexing, VectorRetrieval
-from kotaemon.storages import ChromaVectorStore, InMemoryDocumentStore
+from kotaemon.storages import ChromaVectorStore, InMemoryDocumentStore, QdrantVectorStore
 
 with open(Path(__file__).parent / "resources" / "embedding_openai.json") as f:
     openai_embedding = CreateEmbeddingResponse.model_validate(json.load(f))
@@ -19,7 +19,7 @@ with open(Path(__file__).parent / "resources" / "embedding_openai.json") as f:
     side_effect=lambda *args, **kwargs: openai_embedding,
 )
 def test_indexing(tmp_path):
-    db = ChromaVectorStore(path=str(tmp_path))
+    db = QdrantVectorStore(path=str(tmp_path))
     doc_store = InMemoryDocumentStore()
     embedding = AzureOpenAIEmbeddings(
         azure_deployment="text-embedding-ada-002",
@@ -30,7 +30,7 @@ def test_indexing(tmp_path):
 
     pipeline = VectorIndexing(vector_store=db, embedding=embedding, doc_store=doc_store)
     pipeline.doc_store = cast(InMemoryDocumentStore, pipeline.doc_store)
-    pipeline.vector_store = cast(ChromaVectorStore, pipeline.vector_store)
+    pipeline.vector_store = cast(QdrantVectorStore, pipeline.vector_store)
     assert pipeline.vector_store._collection.count() == 0, "Expected empty collection"
     assert len(pipeline.doc_store._store) == 0, "Expected empty doc store"
     pipeline(text=Document(text="Hello world"))
@@ -43,7 +43,7 @@ def test_indexing(tmp_path):
     side_effect=lambda *args, **kwargs: openai_embedding,
 )
 def test_retrieving(tmp_path):
-    db = ChromaVectorStore(path=str(tmp_path))
+    db = QdrantVectorStore(path=str(tmp_path))
     doc_store = InMemoryDocumentStore()
     embedding = AzureOpenAIEmbeddings(
         azure_deployment="text-embedding-ada-002",

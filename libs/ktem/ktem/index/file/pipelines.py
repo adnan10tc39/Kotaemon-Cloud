@@ -311,7 +311,8 @@ class IndexPipeline(BaseComponent):
 
     loader: BaseReader
     splitter: BaseSplitter | None
-    chunk_batch_size: int = 200
+    chunk_batch_size: int = 10
+
 
     Source = Param(help="The SQLAlchemy Source table")
     Index = Param(help="The SQLAlchemy Index table")
