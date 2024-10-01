@@ -6,9 +6,13 @@ from ktem.app import BasePage
 from ktem.embeddings.manager import embedding_models_manager as embeddings
 from ktem.llms.manager import llms
 from theflow.settings import settings as flowsettings
+from dotenv import load_dotenv
+import os
 
+# Load .env file
+load_dotenv()
 KH_DEMO_MODE = getattr(flowsettings, "KH_DEMO_MODE", False)
-DEFAULT_OLLAMA_URL = "http://localhost:11434/api"
+DEFAULT_OLLAMA_URL = os.getenv("DEFAULT_OLLAMA_URL")
 
 
 DEMO_MESSAGE = (
@@ -216,7 +220,7 @@ class SetupPage(BasePage):
                 name="ollama",
                 spec={
                     "__type__": "kotaemon.llms.ChatOpenAI",
-                    "base_url": "http://localhost:11434/v1/",
+                    "base_url":  os.getenv("OLLAMA_BASE_URL"),
                     "model": "llama3.1:8b",
                     "api_key": "ollama",
                 },
@@ -226,7 +230,7 @@ class SetupPage(BasePage):
                 name="ollama",
                 spec={
                     "__type__": "kotaemon.embeddings.OpenAIEmbeddings",
-                    "base_url": "http://localhost:11434/v1/",
+                    "base_url": os.getenv("OLLAMA_BASE_URL"),
                     "model": "nomic-embed-text",
                     "api_key": "ollama",
                 },
