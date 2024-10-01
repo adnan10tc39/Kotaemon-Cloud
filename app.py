@@ -21,6 +21,6 @@ demo.queue().launch(
         "libs/ktem/ktem/assets",
         GRADIO_TEMP_DIR,
     ],
-# server_name="0.0.0.0",  # Bind to all network interfaces
-# server_port=8760
+server_name="0.0.0.0",  # Bind to all network interfaces
+server_port=10000
 )
