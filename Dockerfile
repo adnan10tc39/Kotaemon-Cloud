@@ -85,3 +85,4 @@ RUN apt-get autoremove \
 RUN python -c "from unstructured.nlp.tokenize import _download_nltk_packages_if_not_present; _download_nltk_packages_if_not_present()"
 
 CMD ["python", "app.py"]
+expose 7860
