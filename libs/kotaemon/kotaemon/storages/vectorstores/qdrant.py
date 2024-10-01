@@ -1,7 +1,11 @@
 from typing import Any, List, Optional, cast
 
 from .base import LlamaIndexVectorStore
+from dotenv import load_dotenv
+import os
 
+# Load .env file
+load_dotenv()
 
 class QdrantVectorStore(LlamaIndexVectorStore):
     _li_class = None
@@ -27,8 +31,10 @@ class QdrantVectorStore(LlamaIndexVectorStore):
         client_kwargs: Optional[dict] = None,
         **kwargs: Any,
     ):
-        url="https://4077d92b-7700-443a-8e5e-ec076d863da6.europe-west3-0.gcp.cloud.qdrant.io:6333"
-        api_key='VZfljUiLWD-PywAh_qnQ6rYIRGxcyIoaPhua28DOnLl7O-gdJ1c8Eg'
+        # url="https://4077d92b-7700-443a-8e5e-ec076d863da6.europe-west3-0.gcp.cloud.qdrant.io:6333"
+        # api_key='VZfljUiLWD-PywAh_qnQ6rYIRGxcyIoaPhua28DOnLl7O-gdJ1c8Eg'
+        url = url or os.getenv("URL")
+        api_key = api_key or os.getenv("API_KEY")
         # if client_kwargs is None:
         #     client_kwargs = {}
         # client_kwargs['https'] = True
