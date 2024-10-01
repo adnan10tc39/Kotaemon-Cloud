@@ -14,6 +14,10 @@ from ktem.main import App  # noqa
 
 app = App()
 demo = app.make()
+
+server_name = os.getenv("GRADIO_SERVER_NAME", "0.0.0.0")
+server_port = int(os.getenv("GRADIO_SERVER_PORT", 7860))
+
 demo.queue().launch(
     favicon_path=app._favicon,
     inbrowser=True,
@@ -21,6 +25,6 @@ demo.queue().launch(
         "libs/ktem/ktem/assets",
         GRADIO_TEMP_DIR,
     ],
-server_name="0.0.0.0",  # Bind to all network interfaces
-server_port=10000
+server_name=server_name,
+server_port=server_port
 )
